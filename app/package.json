@@ -21,15 +21,25 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "pre_test": "react-scripts test --env=jsdom",
+    "test": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && mocha\"",
     "eject": "react-scripts eject",
-    "electron-start": "electron .",
     "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
-    "electron-pack": "build = em.main=build/main.js",
+    "electron-pack": "build --em.main=build/main.js",
     "preelectron-pack": "yarn build"
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "build": {
+    "appId": "",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    }
   },
   "browserslist": {
     "production": [
@@ -41,16 +51,6 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
-    ],
-    "build": {
-      "appId": "",
-      "files": [
-        "build/**/*",
-        "node_modules/**/*"
-      ],
-      "directories": {
-        "buildResources": "assets"
-      }
-    }
+    ]
   }
 }
